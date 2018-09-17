@@ -22,7 +22,7 @@
             android:title="Tools" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="">
         <menu>
             <item
                 android:id="@+id/nav_setting"
@@ -31,7 +31,7 @@
             <item
                 android:id="@+id/nav_exit"
                 android:icon="@drawable/ic_menu_send"
-                android:title="退出" />
+                android:title="退出账号" />
         </menu>
     </item>
 

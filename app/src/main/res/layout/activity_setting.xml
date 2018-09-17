@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <include layout="@layout/view_title_bar" />
 
-    <TextView
-        android:text="设置"
-        android:id="@+id/title"
+    <Button
+        android:id="@+id/clear"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:background="@color/gray_3"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:text="清楚缓存" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/input_eye"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="虹膜录入" />
+
+    <Button
+        android:id="@+id/update_password"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="修改密码" />
+
+    <Button
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="关于" />
+</LinearLayout>

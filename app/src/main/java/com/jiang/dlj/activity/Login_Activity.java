@@ -2,6 +2,7 @@ package com.jiang.dlj.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,8 +10,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.jiang.dlj.MyApp;
 import com.jiang.dlj.R;
+import com.jiang.dlj.servlet.Login_Servlet;
+import com.jiang.dlj.utils.TabToast;
 
 /**
  * @author: jiangadmin
@@ -63,12 +68,15 @@ public class Login_Activity extends Base_Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_forget_password:
+                TabToast.makeText("暂未开放");
                 break;
             case R.id.login_submit:
-                Main_Activity.start(this);
-                finish();
+                new Login_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"admin","admin","admin","admin");
+//                Main_Activity.start(this);
+//                MyApp.finishActivity();
                 break;
             case R.id.login_eye:
+                TabToast.makeText("暂未开放");
                 break;
         }
     }

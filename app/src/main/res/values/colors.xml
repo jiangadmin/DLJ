@@ -21,4 +21,12 @@
     <color name="gray_cd">#cdcdcd</color>
     <color name="gray_d8">#d8d8d8</color>
     <color name="gray_d">#ddd</color>
+
+    <color name="style_color_1">#007af7</color>
+    <color name="style_color_2">#1e2747</color>
+    <color name="style_color_3">#4e6993</color>
+    <color name="style_color_4">#01aef8</color>
+    <color name="style_color_5">#ffa800</color>
+    <color name="style_color_6">#d009e8</color>
+
 </resources>

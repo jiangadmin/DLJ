@@ -1,7 +1,6 @@
 package com.jiang.dlj.utils;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -47,9 +46,6 @@ public class TabToast {
     static View layout;
     static TextView tv;
 
-    public static void snacbar(View view, String str) {
-        Snackbar.make(view, str, Snackbar.LENGTH_LONG).show();
-    }
 
     public TabToast(Context context) {
         mContext = context;

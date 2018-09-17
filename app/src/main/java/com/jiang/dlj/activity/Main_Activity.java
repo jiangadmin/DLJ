@@ -17,10 +17,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.jiang.dlj.MyApp;
 import com.jiang.dlj.R;
 import com.jiang.dlj.adapter.MyAdapter;
 import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.entity.Icon;
+import com.jiang.dlj.utils.TabToast;
 
 import java.util.ArrayList;
 
@@ -45,15 +47,6 @@ public class Main_Activity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -89,13 +82,19 @@ public class Main_Activity extends AppCompatActivity
 
         grid_photo.setOnItemClickListener(this);
 
-
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Demo_Activity.start(this, mData.get(position).getiName());
+        switch (mData.get(position).getiName()) {
+            case "巡回检查":
+                Tour_Route_Activity.start(this);
+                break;
+            default:
+                TabToast.makeText("暂未开放");
+                break;
+        }
+
     }
 
     @Override
@@ -104,22 +103,22 @@ public class Main_Activity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Base_Dialog dialog = new Base_Dialog(this);
-            dialog.setMessage("确认退出吗？");
-            dialog.setOk("确认", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Main_Activity.super.onBackPressed();
-                }
-            });
-            dialog.setEsc("取消", null);
+
+            Snackbar.make(drawer, "确认退出吗？", Snackbar.LENGTH_LONG)
+                    .setAction("确认", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MyApp.AppExit();
+                        }
+                    }).show();
+
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+//        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -149,21 +148,19 @@ public class Main_Activity extends AppCompatActivity
                 break;
             case R.id.nav_manage:
                 break;
-
             case R.id.nav_setting:
                 Setting_Activity.start(this);
                 break;
             case R.id.nav_exit:
-                Base_Dialog dialog = new Base_Dialog(this);
-                dialog.setMessage("确认退出当前账号吗？");
-                dialog.setOk("确认", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Login_Activity.start(Main_Activity.this);
-                        finish();
-                    }
-                });
-                dialog.setEsc("取消", null);
+                Snackbar.make(grid_photo, "确认退出当前账号吗？", Snackbar.LENGTH_LONG)
+                        .setAction("确认", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Login_Activity.start(Main_Activity.this);
+                                MyApp.finishActivity();
+                            }
+                        }).show();
+
                 break;
 
         }

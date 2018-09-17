@@ -3,7 +3,10 @@
     package="com.jiang.dlj">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,7 +15,8 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <!--登录-->
-        <activity android:name=".activity.Login_Activity"
+        <activity
+            android:name=".activity.Login_Activity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,11 +32,17 @@
 
         </activity>
 
-        <activity android:name=".activity.Setting_Activity"
+        <activity
+            android:name=".activity.Setting_Activity"
+            android:screenOrientation="portrait" />
+
+        <!--巡回路线-->
+        <activity android:name=".activity.Tour_Route_Activity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.Demo_Activity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.Demo_Activity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
