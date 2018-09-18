@@ -41,7 +41,6 @@ public class Login_Activity extends Base_Activity implements View.OnClickListene
 
     Button login_submit, login_eye;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +70,9 @@ public class Login_Activity extends Base_Activity implements View.OnClickListene
                 TabToast.makeText("暂未开放");
                 break;
             case R.id.login_submit:
-                new Login_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"admin","admin","admin","admin");
-//                Main_Activity.start(this);
-//                MyApp.finishActivity();
+//                new Login_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"admin","admin","admin","admin");
+                Main_Activity.start(this);
+                MyApp.finishActivity();
                 break;
             case R.id.login_eye:
                 TabToast.makeText("暂未开放");
