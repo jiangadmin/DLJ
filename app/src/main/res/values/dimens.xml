@@ -5,4 +5,15 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+
+    <dimen name="start_activity_Iris_recong_margin">230dp</dimen>
+    <dimen name="Iris_Recognition_size">30sp</dimen>
+    <dimen name="over_time_size">24sp</dimen>
+    <dimen name="Recognition_content_size">15sp</dimen>
+    <dimen name="abount_content_size">18sp</dimen>
+    <dimen name="setview_text_size">16sp</dimen>
+    <dimen name="mode_changed_padding_left">15dp</dimen>
+
+
 </resources>

@@ -105,12 +105,7 @@ public class Main_Activity extends AppCompatActivity
         } else {
 
             Snackbar.make(drawer, "确认退出吗？", Snackbar.LENGTH_LONG)
-                    .setAction("确认", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            MyApp.AppExit();
-                        }
-                    }).show();
+                    .setAction("确认", v -> MyApp.AppExit()).show();
 
         }
     }
@@ -153,12 +148,9 @@ public class Main_Activity extends AppCompatActivity
                 break;
             case R.id.nav_exit:
                 Snackbar.make(grid_photo, "确认退出当前账号吗？", Snackbar.LENGTH_LONG)
-                        .setAction("确认", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Login_Activity.start(Main_Activity.this);
-                                MyApp.finishActivity();
-                            }
+                        .setAction("确认", v -> {
+                            Login_Activity.start(Main_Activity.this);
+                            MyApp.finishActivity();
                         }).show();
 
                 break;

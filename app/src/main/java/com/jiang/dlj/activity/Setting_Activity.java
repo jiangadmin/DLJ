@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.jiang.dlj.R;
+import com.jiang.dlj.iris.Isir_Activity;
 
 /**
  * @author: jiangadmin
@@ -55,6 +56,7 @@ public class Setting_Activity extends Base_Activity implements View.OnClickListe
             case R.id.clear:
                 break;
             case R.id.input_eye:
+                Isir_Activity.start(this);
                 break;
             case R.id.update_password:
                 break;
