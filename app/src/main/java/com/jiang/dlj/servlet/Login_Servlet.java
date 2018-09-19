@@ -5,11 +5,14 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.jiang.dlj.MyApp;
+import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.dialog.Loading;
-import com.jiang.dlj.entity.Base_Entity;
 import com.jiang.dlj.entity.Const;
+import com.jiang.dlj.entity.Login_Entity;
 import com.jiang.dlj.utils.HttpUtil;
 import com.jiang.dlj.utils.LogUtil;
+import com.jiang.dlj.utils.SystemPropertiesProxy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +24,7 @@ import java.util.Map;
  * @Phone: 186 6120 1018
  * TODO:  登录
  */
-public class Login_Servlet extends AsyncTask<String,Integer,Base_Entity> {
+public class Login_Servlet extends AsyncTask<String, Integer, Login_Entity> {
     private static final String TAG = "Login_Servlet";
 
     Activity activity;
@@ -31,33 +34,46 @@ public class Login_Servlet extends AsyncTask<String,Integer,Base_Entity> {
     }
 
     @Override
-    protected Base_Entity doInBackground(String... strings) {
+    protected Login_Entity doInBackground(String... strings) {
         Map map = new HashMap();
-        map.put("name",strings[0]);
-        map.put("pass",strings[1]);
-        map.put("clientid",strings[2]);
-        map.put("token",strings[3]);
+        map.put("name", strings[0]);
+        map.put("pass", strings[1]);
+        map.put("clientid", SystemPropertiesProxy.getString(MyApp.getInstance(), "ro.serialno"));
 
-        String res = HttpUtil.doPost(Const.URL+"/login.cpeam",map);
+        String res = HttpUtil.doPost(Const.URL + "/login.cpeam", map);
 
-        LogUtil.e(TAG,res);
-        Base_Entity entity;
-        if (TextUtils.isEmpty(res)){
-            entity = new Base_Entity();
-        }else {
+        LogUtil.e(TAG, res);
+        Login_Entity entity;
+        if (TextUtils.isEmpty(res)) {
+            entity = new Login_Entity();
+            entity.setErrorcode(-1);
+            entity.setErrormsg("连接服务器失败！");
+        } else {
             try {
-                entity = new Gson().fromJson(res,Base_Entity.class);
-            }catch (Exception e){
-               entity = new Base_Entity();
-                LogUtil.e(TAG,e.getMessage());
+                entity = new Gson().fromJson(res, Login_Entity.class);
+            } catch (Exception e) {
+                entity = new Login_Entity();
+                entity.setErrorcode(-2);
+                entity.setErrormsg("数据解析失败");
+                LogUtil.e(TAG, e.getMessage());
             }
         }
         return entity;
     }
 
     @Override
-    protected void onPostExecute(Base_Entity base_entity) {
-        super.onPostExecute(base_entity);
+    protected void onPostExecute(Login_Entity entity) {
+        super.onPostExecute(entity);
         Loading.dismiss();
+        switch (entity.getErrorcode()) {
+            case 1000:
+                break;
+            default:
+                Base_Dialog dialog = new Base_Dialog(activity);
+                dialog.setMessage(entity.getErrormsg());
+                dialog.setOk("朕已阅", null);
+
+                break;
+        }
     }
 }

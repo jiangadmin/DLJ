@@ -94,21 +94,15 @@ public class CustomRightThermometerView extends View {
         int screenWidth = metrics.widthPixels; // 获取屏幕的宽
         int screenHeight = metrics.heightPixels;// 获取屏幕的高
 
-//        Log.e("tony", "parseAttributes screenWidth：" + screenWidth + " screenHeight: " + screenHeight);
-
         optWidth = (float) screenWidth / defaultWidth;
         int thermometerWidth = (int) (thermometerDefaultWidth * optWidth);//设置适配宽度
         optHeight = (float) screenHeight / defaultHeight;
         int thermometerHeight = (int) (thermometerDefaultHeight * optHeight);//设置适配高度
-//        Log.e("tony", "parseAttributes optWidth：" + optWidth + " optHeight: " + optHeight);
-//        Log.e("tony", "parseAttributes thermometerWidth：" + thermometerWidth + " thermometerHeight: " + thermometerHeight);
 
         mThermometerWidth = mTypedArray.getInt(R.styleable.ThermometerView_thermometerWidth, thermometerWidth);
         mThermometerHeight = mTypedArray.getInt(R.styleable.ThermometerView_thermometerHeight, thermometerHeight);
         mMinValue = mTypedArray.getInt(R.styleable.ThermometerView_minValue, 13);
         mMaxValue = mTypedArray.getInt(R.styleable.ThermometerView_maxValue, 43);
-//        mScaleDegreeLength = mTypedArray.getInt(R.styleable.ThermometerView_degreeLength, 5);
-//        mScaleMercuryLength = mTypedArray.getInt(R.styleable.ThermometerView_mercuryLength, 60);
         degreeOffset = mTypedArray.getInt(R.styleable.ThermometerView_degreeOffset, 12);
         mercuryMargin = mTypedArray.getInt(R.styleable.ThermometerView_mercuryMargin, 8);
         mercuryRadius = mTypedArray.getInt(R.styleable.ThermometerView_mercuryRadius, 6);
@@ -180,12 +174,6 @@ public class CustomRightThermometerView extends View {
             } else if (i == 4) {
                 canvas.drawText("过远", x, y, mDegreePaint);
             }
-
-//            canvas.drawText(mDegreeUnit, x, y, mDegreePaint);
-
-//            mDegreePaint.setTextSize(24 * optWidth);
-//            int degreeWidth = (int) mDegreePaint.measureText(mDegreeArr[i] + "");
-//            canvas.drawText(mDegreeArr[i] + "", x - degreeWidth, y, mDegreePaint);
         }
     }
 
@@ -285,107 +273,4 @@ public class CustomRightThermometerView extends View {
         invalidate();
     }
 
-//    public int getmThermometerWidth() {
-//        return mThermometerWidth;
-//    }
-//
-//    public void setmThermometerWidth(int mThermometerWidth) {
-//        this.mThermometerWidth = mThermometerWidth;
-//    }
-//
-//    public int getmThermometerHeight() {
-//        return mThermometerHeight;
-//    }
-//
-//    public void setmThermometerHeight(int mThermometerHeight) {
-//        this.mThermometerHeight = mThermometerHeight;
-//    }
-//
-//    public int getmPerDegreeHeight() {
-//        return mPerDegreeHeight;
-//    }
-//
-//    public void setmPerDegreeHeight(int mPerDegreeHeight) {
-//        this.mPerDegreeHeight = mPerDegreeHeight;
-//    }
-//
-//    public int getmMaxValue() {
-//        return mMaxValue;
-//    }
-//
-//    public void setmMaxValue(int mMaxValue) {
-//        this.mMaxValue = mMaxValue;
-//    }
-//
-//    public int getmMinValue() {
-//        return mMinValue;
-//    }
-//
-//    public void setmMinValue(int mMinValue) {
-//        this.mMinValue = mMinValue;
-//    }
-//
-//    public int getmScaleDegreeLength() {
-//        return mScaleDegreeLength;
-//    }
-//
-//    public void setmScaleDegreeLength(int mScaleDegreeLength) {
-//        this.mScaleDegreeLength = mScaleDegreeLength;
-//    }
-//
-//    public int getmScaleMercuryLength() {
-//        return mScaleMercuryLength;
-//    }
-//
-//    public void setmScaleMercuryLength(int mScaleMercuryLength) {
-//        this.mScaleMercuryLength = mScaleMercuryLength;
-//    }
-//
-//    public int getmScaleMercuryPadding() {
-//        return mScaleMercuryPadding;
-//    }
-//
-//    public void setmScaleMercuryPadding(int mScaleMercuryPadding) {
-//        this.mScaleMercuryPadding = mScaleMercuryPadding;
-//    }
-//
-//    public int getmScaleDegreeColor() {
-//        return mScaleDegreeColor;
-//    }
-//
-//    public void setmScaleDegreeColor(int mScaleDegreeColor) {
-//        this.mScaleDegreeColor = mScaleDegreeColor;
-//    }
-//
-//    public int getmScaleMercuryDefaultColor() {
-//        return mScaleMercuryDefaultColor;
-//    }
-//
-//    public void setmScaleMercuryDefaultColor(int mScaleMercuryDefaultColor) {
-//        this.mScaleMercuryDefaultColor = mScaleMercuryDefaultColor;
-//    }
-//
-//    public int getmScaleMercuryFillColor() {
-//        return mScaleMercuryFillColor;
-//    }
-//
-//    public void setmScaleMercuryFillColor(int mScaleMercuryFillColor) {
-//        this.mScaleMercuryFillColor = mScaleMercuryFillColor;
-//    }
-//
-//    public int getmScaleMercuryDarkColor() {
-//        return mScaleMercuryDarkColor;
-//    }
-//
-//    public void setmScaleMercuryDarkColor(int mScaleMercuryDarkColor) {
-//        this.mScaleMercuryDarkColor = mScaleMercuryDarkColor;
-//    }
-//
-//    public int getmFillBackgroundColor() {
-//        return mFillBackgroundColor;
-//    }
-//
-//    public void setmFillBackgroundColor(int mFillBackgroundColor) {
-//        this.mFillBackgroundColor = mFillBackgroundColor;
-//    }
 }

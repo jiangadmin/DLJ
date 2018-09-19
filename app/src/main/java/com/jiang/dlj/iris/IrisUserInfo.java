@@ -9,8 +9,6 @@ public class IrisUserInfo {
     public String m_Uid;
     public int m_UserFavicon;
     public String m_UserName;
-//    public int m_LeftEye;
-//    public int m_RightEye;
     public byte[] m_LeftTemplate;
     public byte[] m_RightTemplate;
     public int m_LeftTemplate_Count;

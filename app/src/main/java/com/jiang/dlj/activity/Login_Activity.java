@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jiang.dlj.MyApp;
 import com.jiang.dlj.R;
+import com.jiang.dlj.dialog.Loading;
 import com.jiang.dlj.servlet.Login_Servlet;
 import com.jiang.dlj.utils.TabToast;
 
@@ -48,6 +48,7 @@ public class Login_Activity extends Base_Activity implements View.OnClickListene
         setContentView(R.layout.activity_login);
 
         initview();
+
     }
 
     private void initview() {
@@ -70,9 +71,18 @@ public class Login_Activity extends Base_Activity implements View.OnClickListene
                 TabToast.makeText("暂未开放");
                 break;
             case R.id.login_submit:
-//                new Login_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"admin","admin","admin","admin");
-                Main_Activity.start(this);
-                MyApp.finishActivity();
+                String account = username.getText().toString().trim();
+                String pwd = password.getText().toString().trim();
+                if (TextUtils.isEmpty(account)){
+                    TabToast.makeText("请填写账号！");
+                    return;
+                }
+                if (TextUtils.isEmpty(pwd)){
+                    TabToast.makeText("请填写密码！");
+                    return;
+                }
+                Loading.show(this,"登录中");
+                new Login_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, account, pwd);
                 break;
             case R.id.login_eye:
                 TabToast.makeText("暂未开放");

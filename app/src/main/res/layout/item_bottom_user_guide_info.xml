@@ -1,32 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/bottom_guide_view"
     android:background="#f4f8fb"
     android:orientation="vertical">
-
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/y607"-->
-        <!--android:background="@color/blue_light">-->
-        <!--<ImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/y100"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:scaleType="fitCenter"-->
-            <!--android:src="@drawable/icon_default_user_guide" />-->
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/y300"-->
-            <!--android:layout_marginLeft="@dimen/x630"-->
-            <!--android:text="30cm"-->
-            <!--android:textSize="48px"-->
-            <!--android:textColor="#333333"/>-->
-
-    <!--</FrameLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,6 +26,7 @@
             android:text="将手机举至与眼睛齐平，调整与眼睛的距离，并保证双眼在圆圈范围内。"
             android:textColor="#333333"
             android:textSize="@dimen/x36" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -93,4 +72,5 @@
             android:textColor="#333333"
             android:textSize="@dimen/x36" />
     </LinearLayout>
+
 </LinearLayout>

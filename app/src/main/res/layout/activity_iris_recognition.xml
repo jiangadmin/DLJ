@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:android_custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
 
     <FrameLayout
@@ -9,13 +10,6 @@
         android:layout_height="@dimen/y607"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
-
-        <!--<ImageView-->
-        <!--android:id="@+id/iv_mask"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/ic_mask"-->
-        <!--android:visibility="gone"/>-->
 
         <SurfaceView
             android:id="@+id/iv_camera"
@@ -101,21 +95,6 @@
             android:textColor="#ff0000"
             android:textSize="@dimen/x36" />
 
-        <!--<TextView-->
-        <!--android:id="@+id/tv_left_eye_distance"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginRight="@dimen/x25"-->
-        <!--android:textColor="#ff0000"-->
-        <!--android:textSize="@dimen/x36" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tv_right_eye_distance"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="@dimen/x25"-->
-        <!--android:textColor="#ff0000"-->
-        <!--android:textSize="@dimen/x36" />-->
     </LinearLayout>
 
     <LinearLayout
@@ -227,22 +206,13 @@
             android:textSize="@dimen/x44" />
     </RadioGroup>
 
-    <!--<com.irisking.scanner.view.custom.GuideView-->
-    <!--android:id="@+id/guideView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_above="@+id/view_line" />-->
-    <com.jiang.dlj.iris.custom.CustomTopGuideView
-        android:id="@+id/top_guide_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <include layout="@layout/item_top_user_guide_info"/>
 
-    <com.jiang.dlj.iris.custom.CustomBottomGuideView
-        android:id="@+id/bottom_guide_view"
+    <include layout="@layout/item_bottom_user_guide_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/view_line"
-        android:layout_below="@+id/top_guide_view" />
+        android:layout_below="@+id/top_guide_view"/>
 
     <CheckBox
         android:id="@+id/cb_detectfake2"

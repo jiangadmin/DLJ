@@ -1,7 +1,6 @@
 package com.jiang.dlj.iris;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.Service;
 import android.content.Context;
@@ -12,7 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.PixelFormat;
+import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -29,8 +28,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -56,18 +53,17 @@ import com.irisking.scanner.presenter.IrisConfig;
 import com.irisking.scanner.presenter.IrisPresenter;
 import com.irisking.scanner.util.ImageUtil;
 import com.irisking.scanner.util.TimeArray;
+import com.jiang.dlj.MyApp;
 import com.jiang.dlj.R;
+import com.jiang.dlj.activity.Base_Activity;
 import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.iris.adapter.ShowUserInfoRecyclerViewAdapter;
 import com.jiang.dlj.iris.adapter.SpacesItemDecoration;
-import com.jiang.dlj.iris.custom.CustomBottomGuideView;
 import com.jiang.dlj.iris.custom.CustomRightThermometerView;
-import com.jiang.dlj.iris.custom.CustomTopGuideView;
 import com.jiang.dlj.iris.custom.EyeScannerView;
 import com.jiang.dlj.iris.custom.RoundProgressBar;
-import com.jiang.dlj.iris.custom.dialog.CustomPromptDialog;
-import com.jiang.dlj.iris.custom.dialog.CustomTextViewDialog;
 import com.jiang.dlj.utils.LogUtil;
+import com.jiang.dlj.utils.TabToast;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -78,7 +74,7 @@ import java.util.List;
 import java.util.Map;
 
 // 主文件，完成界面显示，UI控件控制等逻辑
-public class Isir_Activity extends Activity implements OnClickListener {
+public class Isir_Activity extends Base_Activity implements OnClickListener {
     private static final String TAG = "Isir_Activity";
 
     private TimeArray uvcTimeArray = new TimeArray();
@@ -160,10 +156,8 @@ public class Isir_Activity extends Activity implements OnClickListener {
     private IrisConfig.IdentifyConfig mIdentifyConfig;
 
     private CountDownTimer mCountDownTimer;
-    private CustomTextViewDialog customTextViewDialog;
-    private CustomPromptDialog customPromptDialog;
-    private CustomTopGuideView mTopGuideView;
-    private CustomBottomGuideView mBottomGuideView;
+    private LinearLayout mTopGuideView;
+    private LinearLayout mBottomGuideView;
 
     private CheckBox cbDetectFakeEye1;
     private CheckBox cbDetectFakeEye2;
@@ -203,18 +197,29 @@ public class Isir_Activity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         screenUiAdjust();
 
-        Intent intent = getIntent();
-        int cameraId = intent.getIntExtra("cameraid", 1);
-        int previewImW = intent.getIntExtra("width", 1);
-        int previewImH = intent.getIntExtra("height", 1);
+        int cameraId = 3;
+        int previewImW = 1920;
+        int previewImH = 1080;
+
+        Camera camera = null;
+        try {
+            camera = Camera.open(cameraId);
+        } catch (Exception e) {
+            Base_Dialog dialog = new Base_Dialog(this);
+            dialog.setMessage("无法开启虹膜设备！");
+            dialog.setCancelable(false);
+            dialog.setOk("确定", v -> MyApp.finishActivity());
+            return;
+        } finally {
+            if (camera != null) {
+                camera.release();
+            }
+        }
 
         EnumDeviceType.getCurrentDevice().setCameraId(cameraId);
         EnumDeviceType.getCurrentDevice().setPreviewWidth(previewImW);
         EnumDeviceType.getCurrentDevice().setPreviewHeight(previewImH);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE); // 全屏，不出现图标
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         setContentView(R.layout.activity_iris_recognition);
         sqliteDataBase = SqliteDataBase.getInstance(this);
         // 设置语音
@@ -383,11 +388,6 @@ public class Isir_Activity extends Activity implements OnClickListener {
             eyeHeight = Float.parseFloat(df.format(((float) eyeViewHeight / 3) * optHeight)) + 120;
             Log.e("tony", "screenUiAdjust eyeHeight: " + eyeHeight);
         }
-
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE); // 全屏，不出现图标
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setFormat(PixelFormat.TRANSLUCENT);
     }
 
     @SuppressLint("HandlerLeak")
@@ -450,7 +450,6 @@ public class Isir_Activity extends Activity implements OnClickListener {
 
         mRoundProgressBar = findViewById(R.id.roundProgress);
         mRoundProgressBar.setXAndY(eyeX1, eyeX2, eyeHeight);// 设置双眼progressbar的位置
-        Log.e("tony", "initUI eyeHeight: " + eyeHeight);
 
         //横向ProgressBar
         custom_ProgressBar = findViewById(R.id.horizontal_progressBar);
@@ -541,10 +540,6 @@ public class Isir_Activity extends Activity implements OnClickListener {
                     //显示对话框
                     Base_Dialog base_dialog = new Base_Dialog(this);
                     base_dialog.setMessage("最多可注册5个用户\n请删除某个用户后再注册");
-//
-//                    customTextViewDialog = new CustomTextViewDialog(Isir_Activity.this);
-//                    customTextViewDialog.setMessage("最多可注册5个用户\n请删除某个用户后再注册");
-//                    customTextViewDialog.show();
                     //对话框默认三秒消失
                     delayDialogDismiss(base_dialog);
                     //删除用户、修改用户名按钮设置可点击
@@ -622,11 +617,10 @@ public class Isir_Activity extends Activity implements OnClickListener {
                     }
                 } else {
 
-                    customPromptDialog = new CustomPromptDialog(Isir_Activity.this);
-                    customPromptDialog.setMessage("没有特征,请先注册");
-                    customPromptDialog.setConfirmOnclickListener("确认", () -> customPromptDialog.dismiss());
-                    customPromptDialog.show();
-                    delayDialogDismiss(customPromptDialog);
+                    Base_Dialog dialog = new Base_Dialog(this);
+                    dialog.setMessage("没有特征，请先注册");
+                    dialog.setOk("确认", null);
+                    delayDialogDismiss(dialog);
                     //显示上部引导界面
                     mTopGuideView.setVisibility(View.VISIBLE);
                 }
@@ -673,11 +667,10 @@ public class Isir_Activity extends Activity implements OnClickListener {
                         }
                     }
                 } else {
-                    customPromptDialog = new CustomPromptDialog(this);
-                    customPromptDialog.setMessage("没有特征,请先注册");
-                    customPromptDialog.setConfirmOnclickListener("确认", () -> customPromptDialog.dismiss());
-                    customPromptDialog.show();
-                    delayDialogDismiss(customPromptDialog);
+                    Base_Dialog dialog = new Base_Dialog(this);
+                    dialog.setMessage("未录入虹膜信息，请先录入");
+                    dialog.setOk("确定", null);
+                    delayDialogDismiss(dialog);
                     //显示上部引导界面
                     mTopGuideView.setVisibility(View.VISIBLE);
                     resetUI();
@@ -855,28 +848,27 @@ public class Isir_Activity extends Activity implements OnClickListener {
             resetUI();
             // 首先判断是否成功，若失败提示后返回
             if (ifSuccess != IKALGConstant.ALGSUCCESS) {
-                customPromptDialog = new CustomPromptDialog(Isir_Activity.this);
+                Base_Dialog dialog = new Base_Dialog(Isir_Activity.this);
 
-                if (ifSuccess == IKALGConstant.ERR_OVERTIME) {
-                    customPromptDialog.setMessage("超时,请重试");
-                } else if (ifSuccess == IKALGConstant.ERR_ENROLL_ERRORFEATURE) {
-                    customPromptDialog.setMessage("多人注册!");
-                } else {
-                    customPromptDialog.setMessage("ErrorCode:" + ifSuccess);
+                switch (ifSuccess) {
+                    case IKALGConstant.ERR_OVERTIME:
+                        dialog.setMessage("超时,请重试");
+                        break;
+                    case IKALGConstant.ERR_ENROLL_ERRORFEATURE:
+                        dialog.setMessage("多人注册!");
+                        break;
+                    default:
+                        dialog.setMessage("ErrorCode:" + ifSuccess);
+                        break;
                 }
+
+                dialog.setOk("确认", null);
+
+                //对话框默认三秒消失
+                delayDialogDismiss(dialog);
 
                 mTopGuideView.setVisibility(View.VISIBLE);
                 mIrisPresenter.updateReserveInfo(0);
-
-                customPromptDialog.setConfirmOnclickListener("确认", new CustomPromptDialog.onConfirmOnclickListener() {
-                    @Override
-                    public void onConfirmClick() {
-                        customPromptDialog.dismiss();
-                    }
-                });
-                customPromptDialog.show();
-                //对话框默认三秒消失
-                delayDialogDismiss(customPromptDialog);
 
                 LogUtil.e("iris_info", "注册完成， 注册失败，code：" + ifSuccess + ", 总耗时：" + (System.currentTimeMillis() - startTime));
 
@@ -892,11 +884,8 @@ public class Isir_Activity extends Activity implements OnClickListener {
             //显示引导界面
             mTopGuideView.setVisibility(View.VISIBLE);
             //显示注册成功对话框
-            customTextViewDialog = new CustomTextViewDialog(Isir_Activity.this);
-            customTextViewDialog.setMessage("注册成功！");
-            customTextViewDialog.show();
-            //对话框默认三秒消失
-            delayDialogDismiss(customTextViewDialog);
+            TabToast.makeText("录入成功");
+
             //取消倒计时
             mCountDownTimer.cancel();
             //默认设置水平进度条为最大值
@@ -943,30 +932,33 @@ public class Isir_Activity extends Activity implements OnClickListener {
             if (state == STATE_IDENTIFY_FLAG) {
                 resetUI();
                 if (ifSuccess != IKALGConstant.ALGSUCCESS) {
-                    customPromptDialog = new CustomPromptDialog(Isir_Activity.this);
 
-                    if (ifSuccess == IKALGConstant.ERR_IDENFAILED) {
-                        customPromptDialog.setMessage("识别失败,请重试");
-                    } else if (ifSuccess == IKALGConstant.ERR_OVERTIME) {
-                        customPromptDialog.setMessage("识别超时,请重试");
-                    } else if (ifSuccess == IKALGConstant.ERR_NOFEATURE) {
-                        customPromptDialog.setMessage("没有特征,请先注册");
-                    } else if (ifSuccess == IKALGConstant.ERR_EXCEEDMAXMATCHCAPACITY) {
-                        customPromptDialog.setMessage("特征数量过多!");
-                    } else if (ifSuccess == IKALGConstant.ERR_IDEN) {
-                        customPromptDialog.setMessage("特征不匹配!");
-                    } else {
-                        customPromptDialog.setMessage("error code:" + ifSuccess);
+                    Base_Dialog dialog = new Base_Dialog(Isir_Activity.this);
+
+                    switch (ifSuccess) {
+                        case IKALGConstant.ERR_IDENFAILED:
+                            dialog.setMessage("识别失败,请重试");
+                            break;
+                        case IKALGConstant.ERR_OVERTIME:
+                            dialog.setMessage("识别超时,请重试");
+                            break;
+                        case IKALGConstant.ERR_NOFEATURE:
+                            dialog.setMessage("没有特征,请先注册");
+                            break;
+                        case IKALGConstant.ERR_EXCEEDMAXMATCHCAPACITY:
+                            dialog.setMessage("特征数量过多!");
+                            break;
+                        case IKALGConstant.ERR_IDEN:
+                            dialog.setMessage("特征不匹配!");
+                            break;
+                        default:
+                            dialog.setMessage("error code:" + ifSuccess);
+                            break;
                     }
+                    dialog.setOk("确认", null);
 
-                    customPromptDialog.setConfirmOnclickListener("确认", new CustomPromptDialog.onConfirmOnclickListener() {
-                        public void onConfirmClick() {
-                            customPromptDialog.dismiss();
-                        }
-                    });
-                    customPromptDialog.show();
                     //对话框默认三秒消失
-                    delayDialogDismiss(customPromptDialog);
+                    delayDialogDismiss(dialog);
 
                     mIrisPresenter.updateReserveInfo(0);
 
@@ -1025,35 +1017,41 @@ public class Isir_Activity extends Activity implements OnClickListener {
             } else if (state == STATE_CONTINUE_FLAG) {
                 if (ifSuccess != IKALGConstant.ALGSUCCESS) {
                     resetUI();
-                    customPromptDialog = new CustomPromptDialog(Isir_Activity.this);
+                    Base_Dialog dialog = new Base_Dialog(Isir_Activity.this);
 
-                    if (ifSuccess == IKALGConstant.ERR_IDENFAILED) {
-                        customPromptDialog.setMessage("识别失败,请重试");
-                    } else if (ifSuccess == IKALGConstant.ERR_OVERTIME) {
-//                        customPromptDialog.setMessage("识别超时,请重试");
-                        mIrisPresenter.updateReserveInfo(0);
+                    switch (ifSuccess) {
+                        case IKALGConstant.ERR_IDENFAILED:
+                            dialog.setMessage("识别失败,请重试");
+                            break;
+                        case IKALGConstant.ERR_OVERTIME:
+                            dialog.setMessage("识别超时,请重试");
 
-                        mIrisContinueRBtn.setText("连续识别");
+                            mIrisPresenter.updateReserveInfo(0);
 
-                        //左右眼动画暂停
-                        mLeftEyeView.pause();
-                        mRightEyeView.pause();
-                        mTopGuideView.setVisibility(View.VISIBLE);
-                        return;
-                    } else if (ifSuccess == IKALGConstant.ERR_NOFEATURE) {
-                        customPromptDialog.setMessage("没有特征,请先注册");
-                    } else if (ifSuccess == IKALGConstant.ERR_EXCEEDMAXMATCHCAPACITY) {
-                        customPromptDialog.setMessage("特征数量过多!");
-                    } else if (ifSuccess == IKALGConstant.ERR_IDEN) {
-                        customPromptDialog.setMessage("特征不匹配!");
-                    } /*else {
-                        customPromptDialog.setMessage("error code:" + ifSuccess);
-                    }*/
+                            mIrisContinueRBtn.setText("连续识别");
 
-                    customPromptDialog.setConfirmOnclickListener("确认", () -> customPromptDialog.dismiss());
-                    customPromptDialog.show();
+                            //左右眼动画暂停
+                            mLeftEyeView.pause();
+                            mRightEyeView.pause();
+                            mTopGuideView.setVisibility(View.VISIBLE);
+                            break;
+                        case IKALGConstant.ERR_NOFEATURE:
+                            dialog.setMessage("没有特征,请先注册");
+                            break;
+                        case IKALGConstant.ERR_EXCEEDMAXMATCHCAPACITY:
+                            dialog.setMessage("特征数量过多!");
+                            break;
+                        case IKALGConstant.ERR_IDEN:
+                            dialog.setMessage("特征不匹配!");
+                            break;
+                        default:
+                            dialog.setMessage("error code:" + ifSuccess);
+                            break;
+                    }
+
+                    dialog.setOk("确认", null);
                     //对话框默认三秒消失
-                    delayDialogDismiss(customPromptDialog);
+                    delayDialogDismiss(dialog);
 
                     mIrisPresenter.updateReserveInfo(0);
 
@@ -1355,13 +1353,11 @@ public class Isir_Activity extends Activity implements OnClickListener {
 
     public void displayOverTimeDialog() {
         custom_ProgressBar.setProgress(custom_ProgressBar.getMax());
-        customPromptDialog = new CustomPromptDialog(Isir_Activity.this);
+        Base_Dialog dialog = new Base_Dialog(this);
+        dialog.setMessage("超时，请重试！");
+        dialog.setOk("确认", null);
 
-        customPromptDialog.setMessage("超时,请重试!");
-
-        customPromptDialog.setConfirmOnclickListener("确认", () -> customPromptDialog.dismiss());
-        customPromptDialog.show();
         //对话框默认三秒消失
-        delayDialogDismiss(customPromptDialog);
+        delayDialogDismiss(dialog);
     }
 }

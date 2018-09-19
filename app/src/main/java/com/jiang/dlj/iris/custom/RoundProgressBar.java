@@ -99,23 +99,16 @@ public class RoundProgressBar extends ImageView {
 
         //获取自定义属性和默认值
 
-        //roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, Color.GREEN);
         roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, context.getResources().getColor(android.R.color.white));
-        //textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.GREEN);
         textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, context.getResources().getColor(android.R.color.white));
         textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize, 15);
         roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 8);
         max = mTypedArray.getInteger(R.styleable.RoundProgressBar_max, 100);
-//		textIsDisplayable = mTypedArray.getBoolean(R.styleable.RoundProgressBar_textIsDisplayable, true);
-//		style = mTypedArray.getInt(R.styleable.RoundProgressBar_style, 0);
         roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, Color.RED);
         mTypedArray.recycle();
 
-//		mBackgroundBitmap = ((BitmapDrawable)getResources().getDrawable(R.drawable.b_3_2_ok_00)).getBitmap();
         setImageDrawable(new ColorDrawable(getResources().getColor(R.color.ik_full_transparent)));
 
-//		setDrawingCacheEnabled(false);
-//		setImageBitmap(mBackgroundBitmap);
     }
 
 
@@ -132,8 +125,7 @@ public class RoundProgressBar extends ImageView {
         float optWidth = (float) screenWidth / defaultWidth;
         float optHeight = (float) screenHeight / defaultHeight;
 
-//        Log.e("tony", "onDraw optHeight：" + optHeight);
-//        Log.e("tony", "onDraw screenWidth：" + screenWidth + " screenHeight: " + screenHeight);
+
         Configuration mConfiguration = getContext().getResources().getConfiguration();
         int ori = mConfiguration.orientation;// 获取屏幕方向
 
@@ -146,13 +138,6 @@ public class RoundProgressBar extends ImageView {
             radius = defaultOffset * optHeight;
             Log.e("tony", "onDraw land radius：" + radius);
         }
-        //以分辨率1920*1080为基准，根据实际适配不同分辨率屏幕效果，发现当半径为180时，显示效果差距较小
-//        if (mBGWidth == 0 || mBGHeight == 0) {
-//            mBGWidth = getMeasuredWidth();
-//            mBGHeight = getMeasuredHeight();
-//            Log.e("tony", "RoundProgressBar mBGWidth " + mBGWidth);
-//            radius = (float) (mBGWidth * 50 / 360);
-//        }
 
         /**
          * 画最外层的大圆环
@@ -189,7 +174,6 @@ public class RoundProgressBar extends ImageView {
         }
         canvas.drawArc(left_oval, -90, 360 * left_progress / max, false, paint);  //根据进度画圆弧
         canvas.drawArc(right_oval, -90, 360 * right_progress / max, false, paint);  //根据进度画圆弧
-
 
     }
 

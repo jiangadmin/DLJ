@@ -117,23 +117,20 @@ public class ThermometerView extends View {
         if (mercuryPadding > 0) {
             mBuilder.setmScaleMercuryPadding(mercuryPadding);
         }
-//		int fillColor = (int) t.getColor(R.styleable.ThermometerView_fillColor, -1);
-//		if (fillColor > 0) {
-//			mBuilder.setmFillBackgroundColor(fillColor);
-//		}
-        int degreeColor = (int) t.getColor(R.styleable.ThermometerView_degreeColor, -1);
+
+        int degreeColor =  t.getColor(R.styleable.ThermometerView_degreeColor, -1);
         if (degreeColor > 0) {
             mBuilder.setmScaleDegreeColor(degreeColor);
         }
-        int mercuryDefaultColor = (int) t.getColor(R.styleable.ThermometerView_mercuryDefaultColor, -1);
+        int mercuryDefaultColor =  t.getColor(R.styleable.ThermometerView_mercuryDefaultColor, -1);
         if (mercuryDefaultColor > 0) {
             mBuilder.setmScaleMercuryDefaultColor(mercuryDefaultColor);
         }
-        int mercuryDarkColor = (int) t.getColor(R.styleable.ThermometerView_mercuryDarkColor, -1);
+        int mercuryDarkColor =  t.getColor(R.styleable.ThermometerView_mercuryDarkColor, -1);
         if (mercuryDarkColor > 0) {
             mBuilder.setmScaleMercuryDarkColor(mercuryDarkColor);
         }
-        int mercuryFillColor = (int) t.getColor(R.styleable.ThermometerView_mercuryFillColor, -1);
+        int mercuryFillColor =  t.getColor(R.styleable.ThermometerView_mercuryFillColor, -1);
         if (mercuryFillColor > 0) {
             mBuilder.setmScaleMercuryFillColor(mercuryFillColor);
         }
@@ -283,16 +280,6 @@ public class ThermometerView extends View {
         mBuilder = builder;
         return this;
     }
-
-//	public ThermometerView setMaxValue(int max) {
-//		mMaxValue = max;
-//		return this;
-//	}
-//
-//	public ThermometerView setMinValue(int min) {
-//		mMinValue = min;
-//		return this;
-//	}
 
     public ThermometerView setUnit(String unit) {
         mDegreeUnit = unit;

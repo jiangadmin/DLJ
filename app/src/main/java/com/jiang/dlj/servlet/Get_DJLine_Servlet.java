@@ -52,12 +52,10 @@ public class Get_DJLine_Servlet extends AsyncTask<String, Integer, Base_Entity> 
         return entity;
     }
 
-
     @Override
     protected void onPostExecute(Base_Entity base_entity) {
         super.onPostExecute(base_entity);
         Loading.dismiss();
-
 
     }
 }

@@ -20,9 +20,6 @@ import com.jiang.dlj.R;
 public class EyeScannerView extends LinearLayout {
 
     ImageView mScannerView;
-//	ProgressView mProgressView;
-//	RoundProgressBar mRoundProgressBar;
-
     ObjectAnimator animator;
 
     public EyeScannerView(@NonNull Context context) {
@@ -38,8 +35,7 @@ public class EyeScannerView extends LinearLayout {
     void addContentView() {
         View childView = LayoutInflater.from(getContext()).inflate(R.layout.view_scanner, null);
         mScannerView =  childView.findViewById(R.id.scanner);
-//		mProgressView = childView.findViewById(R.id.progress);
-//		mRoundProgressBar =childView.findViewById(R.id.roundProgress);
+
         addView(childView);
     }
 
@@ -58,7 +54,4 @@ public class EyeScannerView extends LinearLayout {
         }
     }
 
-    public void setProgress(int progress) {
-//		mProgressView.setProgress(progress);
-    }
 }
