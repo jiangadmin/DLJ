@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -17,6 +18,9 @@ import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.entity.DJLine_Entity;
 import com.jiang.dlj.servlet.Get_DJLine_Servlet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author: jiangadmin
  * @date: 2018/9/17
@@ -24,7 +28,7 @@ import com.jiang.dlj.servlet.Get_DJLine_Servlet;
  * @Phone: 186 6120 1018
  * TODO: 巡回路线
  */
-public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener {
+public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener, AdapterView.OnItemClickListener {
     private static final String TAG = "Tour_Route_Activity";
 
     SwipeRefreshLayout sr;
@@ -35,6 +39,8 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
     int nowtype = 0;
 
     DJLine_Adapter djLine_adapter;
+
+    List<DJLine_Entity.ResultBean> resultBeans = new ArrayList<>();
 
     public static void start(Context context) {
         Intent intent = new Intent();
@@ -53,6 +59,9 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
         initview();
 
         djLine_adapter = new DJLine_Adapter(this);
+        djLine_adapter.setListData(resultBeans);
+        listView.setAdapter(djLine_adapter);
+
         new Get_DJLine_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(nowtype));
 
     }
@@ -74,6 +83,9 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
         view_null.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
 
+        resultBeans.clear();
+        djLine_adapter.notifyDataSetChanged();
+
         new Get_DJLine_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(nowtype));
 
     }
@@ -81,11 +93,9 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
 
+        sr.setRefreshing(true);
         nowtype = tab.getPosition();
         onRefresh();
-        new Get_DJLine_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(nowtype));
-
-        sr.setRefreshing(true);
 
     }
 
@@ -104,9 +114,12 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
         switch (entity.getErrorcode()) {
             case 1000:
                 if (entity.getResult() != null && entity.getResult().size() > 0) {
+                    resultBeans.clear();
+                    resultBeans.addAll(entity.getResult());
                     djLine_adapter.setListData(entity.getResult());
-                    listView.setAdapter(djLine_adapter);
+
                     djLine_adapter.notifyDataSetChanged();
+                    listView.setOnItemClickListener(this);
                 } else {
                     view_null.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
@@ -120,5 +133,10 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
                 dialog.setOk("确定", null);
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        DJIdPos_Activity.start(this,resultBeans.get(position).getGuids());
     }
 }

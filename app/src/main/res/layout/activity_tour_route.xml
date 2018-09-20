@@ -2,11 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_bg"
     android:orientation="vertical">
 
     <include layout="@layout/view_title_bar" />
 
     <android.support.design.widget.TabLayout
+        android:background="@color/white"
+        android:elevation="3dp"
         android:id="@+id/tour_route_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

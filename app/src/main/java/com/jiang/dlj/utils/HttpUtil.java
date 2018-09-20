@@ -138,7 +138,7 @@ public class HttpUtil {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
-            LogUtil.e(TAG, "网页结果：" + conn.getResponseCode());
+
             if (conn.getResponseCode() == 200) {
                 is = conn.getInputStream();
                 baos = new ByteArrayOutputStream();
@@ -150,6 +150,7 @@ public class HttpUtil {
                 }
                 baos.flush();
 
+                LogUtil.e(TAG,"HTTP返回："+baos.toString());
                 return baos.toString();
 
             } else {

@@ -1,5 +1,6 @@
 package com.jiang.dlj.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,10 @@ import java.util.List;
 
 public class DJLine_Adapter extends android.widget.BaseAdapter {
     private static final String TAG = "Adapter_Help_1";
-    private Context context;
+    private Activity context;
     private List<DJLine_Entity.ResultBean> listData = new ArrayList<>();
 
-    public DJLine_Adapter(Context context) {
+    public DJLine_Adapter(Activity context) {
         this.context = context;
     }
 
