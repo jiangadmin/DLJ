@@ -5,9 +5,9 @@ package com.jiang.dlj.entity;
  * @date: 2018/9/17
  * @Email: www.fangmu@qq.com
  * @Phone: 186 6120 1018
- * TODO: 长量
+ * TODO: 常量
  */
 public class Const {
 
-    public static String URL = "http://172.169.50.14:8208/DMS/appService/";
+    public static String URL = "http://112.4.136.182:28208/DMS/appService/";
 }

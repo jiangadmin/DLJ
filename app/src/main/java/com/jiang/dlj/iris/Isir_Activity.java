@@ -481,7 +481,6 @@ public class Isir_Activity extends Base_Activity implements OnClickListener {
         mResultTextViewEnrRecFinal = findViewById(R.id.ie_final_result);
         mCurrentEyeDistance = findViewById(R.id.tv_current_eye_distance);
 
-
         previewParaUpdated = false;
 
         mRightThermometerView = findViewById(R.id.custom_right_thermometer_view);
