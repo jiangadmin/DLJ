@@ -11,7 +11,7 @@ import java.util.List;
 public class SqliteDataBase extends SQLiteOpenHelper {
 
     // 数据库名、表名
-    private static final String DATABASE_NAME = "IrisDemo.db";
+    private static final String DATABASE_NAME = "DLJEye.db";
     private static final String TABLE_NAME_USER_DATA = "user_data";
     // 数据库初始版本
     private static final int VERSION = 1;
@@ -261,7 +261,7 @@ public class SqliteDataBase extends SQLiteOpenHelper {
      */
     public List<IrisUserInfo> queryLeftFeature() {
         List<IrisUserInfo> temp = this.queryAll();
-        List<IrisUserInfo> userArray = new ArrayList<IrisUserInfo>();
+        List<IrisUserInfo> userArray = new ArrayList<>();
 
         for (IrisUserInfo userInfo : temp) {
             if (userInfo.m_LeftTemplate_Count > 0) {
@@ -281,7 +281,7 @@ public class SqliteDataBase extends SQLiteOpenHelper {
     public List<IrisUserInfo> queryRightFeature() {
 
         List<IrisUserInfo> temp = this.queryAll();
-        List<IrisUserInfo> userArray = new ArrayList<IrisUserInfo>();
+        List<IrisUserInfo> userArray = new ArrayList<>();
 
         for (IrisUserInfo userInfo : temp) {
             if (userInfo.m_RightTemplate_Count > 0) {
@@ -307,7 +307,7 @@ public class SqliteDataBase extends SQLiteOpenHelper {
             throw new IllegalArgumentException("cursor is null");
         }
 
-        List<IrisUserInfo> userArray = new ArrayList<IrisUserInfo>();
+        List<IrisUserInfo> userArray = new ArrayList<>();
 
         IrisUserInfo user_info = null;
         while (cursor.moveToNext()) {

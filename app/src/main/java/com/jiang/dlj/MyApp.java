@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.jiang.dlj.utils.LogUtil;
+import com.tencent.bugly.Bugly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,10 @@ public class MyApp extends Application {
 
     @Override
     public void onCreate() {
-    super.onCreate();
+        super.onCreate();
         instance = this;
+        Bugly.init(getApplicationContext(), "0d9be2fa83", false);
+
     }
 
     /**

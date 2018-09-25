@@ -38,7 +38,6 @@ public class Get_DJLine_Servlet extends AsyncTask<String, Integer, DJLine_Entity
         Map map = new HashMap();
 
         map.put("userid", SaveUtils.getString(Save_Key.UserId));//用户ID
-//        map.put("userid", "123");//用户ID
         map.put("state", strings[0]);//状态 0 未巡检，1巡检中， 2完成
 
         String res = HttpUtil.doGet(Const.URL + "appDJLine.cpeam", map);

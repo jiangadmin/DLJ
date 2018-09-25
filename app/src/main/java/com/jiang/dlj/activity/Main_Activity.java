@@ -3,7 +3,6 @@ package com.jiang.dlj.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -16,13 +15,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jiang.dlj.MyApp;
 import com.jiang.dlj.R;
-import com.jiang.dlj.adapter.MyAdapter;
-import com.jiang.dlj.dialog.Base_Dialog;
+import com.jiang.dlj.adapter.Home_Item_Adapter;
 import com.jiang.dlj.entity.Icon;
+import com.jiang.dlj.entity.Save_Key;
+import com.jiang.dlj.iris.Isir_Activity;
+import com.jiang.dlj.utils.SaveUtils;
 import com.jiang.dlj.utils.TabToast;
+import com.tencent.bugly.beta.Beta;
 
 import java.util.ArrayList;
 
@@ -31,8 +35,10 @@ public class Main_Activity extends AppCompatActivity
     private static final String TAG = "Main_Activity";
 
     private GridView grid_photo;
-    private MyAdapter mAdapter = null;
+    private Home_Item_Adapter mAdapter = null;
     private ArrayList<Icon> mData = null;
+
+    TextView nav_name;
 
     public static void start(Context context) {
         Intent intent = new Intent();
@@ -55,6 +61,8 @@ public class Main_Activity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        LinearLayout linearLayout = (LinearLayout) navigationView.inflateHeaderView(R.layout.nav_header_main);
+        nav_name = linearLayout.findViewById(R.id.nav_name);
         navigationView.setNavigationItemSelectedListener(this);
 
         initview();
@@ -64,23 +72,25 @@ public class Main_Activity extends AppCompatActivity
         grid_photo = findViewById(R.id.main_item);
 
         mData = new ArrayList<>();
-        mData.add(new Icon(R.mipmap.ic_launcher, "交接班"));
-        mData.add(new Icon(R.mipmap.ic_launcher, "监盘"));
-        mData.add(new Icon(R.mipmap.ic_launcher, "定期工作"));
-        mData.add(new Icon(R.mipmap.ic_launcher, "值班日志"));
-        mData.add(new Icon(R.mipmap.ic_launcher, "运行台账"));
-        mData.add(new Icon(R.mipmap.ic_launcher, "缺陷管理"));
-        mData.add(new Icon(R.mipmap.ic_launcher, "生产日报"));
-        mData.add(new Icon(R.mipmap.ic_launcher, "操作票"));
-        mData.add(new Icon(R.mipmap.ic_launcher, "工作票"));
-        mData.add(new Icon(R.mipmap.ic_launcher, "巡回检查"));
+        mData.add(new Icon(R.drawable.ic_xunjian, "巡回检查"));
+        mData.add(new Icon(R.drawable.ic_jiaojie, "交接班"));
+        mData.add(new Icon(R.drawable.ic_gongzuo, "工作票"));
+        mData.add(new Icon(R.drawable.ic_chaozuo, "操作票"));
+        mData.add(new Icon(R.drawable.ic_jianpan, "监盘"));
+        mData.add(new Icon(R.drawable.ic_quexian, "缺陷管理"));
+        mData.add(new Icon(R.drawable.ic_weihu, "定期工作"));
+        mData.add(new Icon(R.drawable.ic_weihu, "运行台账"));
+        mData.add(new Icon(R.drawable.ic_weihu, "值班日志"));
 
-        mAdapter = new MyAdapter(this);
+        mAdapter = new Home_Item_Adapter(this);
         mAdapter.setmData(mData);
 
         grid_photo.setAdapter(mAdapter);
 
         grid_photo.setOnItemClickListener(this);
+
+        nav_name.setText(SaveUtils.getString(Save_Key.UserName));
+
 
     }
 
@@ -137,14 +147,16 @@ public class Main_Activity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
-            case R.id.nav_camera:
+            case R.id.nav_input_eye:
+                Isir_Activity.start(this);
                 break;
-            case R.id.nav_gallery:
+            case R.id.nav_update_password:
                 break;
-            case R.id.nav_manage:
+            case R.id.nav_update:
+                Beta.checkUpgrade();
                 break;
-            case R.id.nav_setting:
-                Setting_Activity.start(this);
+            case R.id.nav_about:
+                About_Activity.start(this);
                 break;
             case R.id.nav_exit:
                 Snackbar.make(grid_photo, "确认退出当前账号吗？", Snackbar.LENGTH_LONG)

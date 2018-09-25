@@ -121,7 +121,6 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginTop="@dimen/x50"
             android:text="打开活体检测"
-            android:visibility="gone"
             android:textColor="@color/ik_dark_black" />
 
         <TextView

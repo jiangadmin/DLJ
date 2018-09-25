@@ -72,6 +72,7 @@ public class Login_Servlet extends AsyncTask<String, Integer, Login_Entity> {
             case 1000:
                 if (!TextUtils.isEmpty(entity.getResult().getUserid())){
                     SaveUtils.setString(Save_Key.UserId,entity.getResult().getUserid());
+                    SaveUtils.setString(Save_Key.UserName,entity.getResult().getUsername());
                     Main_Activity.start(activity);
                     MyApp.finishActivity();
                 }

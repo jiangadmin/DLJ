@@ -13,7 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jiang.dlj.R;
+import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.dialog.Loading;
+import com.jiang.dlj.iris.SqliteDataBase;
 import com.jiang.dlj.servlet.Login_Servlet;
 import com.jiang.dlj.utils.TabToast;
 
@@ -41,12 +43,16 @@ public class Login_Activity extends Base_Activity implements View.OnClickListene
 
     Button login_submit, login_eye;
 
+    boolean haveUserEyesInfo;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+
+        haveUserEyesInfo = SqliteDataBase.getInstance(this).queryAllResult();
 
         initview();
 
@@ -75,19 +81,29 @@ public class Login_Activity extends Base_Activity implements View.OnClickListene
 //Main_Activity.start(this);
                 String account = username.getText().toString().trim();
                 String pwd = password.getText().toString().trim();
-                if (TextUtils.isEmpty(account)){
+                if (TextUtils.isEmpty(account)) {
                     TabToast.makeText("请填写账号！");
                     return;
                 }
-                if (TextUtils.isEmpty(pwd)){
+                if (TextUtils.isEmpty(pwd)) {
                     TabToast.makeText("请填写密码！");
                     return;
                 }
-                Loading.show(this,"登录中");
+                Loading.show(this, "登录中");
                 new Login_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, account, pwd);
                 break;
             case R.id.login_eye:
-                TabToast.makeText("暂未开放");
+                // 检查是否有录入数据
+                if (haveUserEyesInfo) {
+                    Base_Dialog dialog = new Base_Dialog(this);
+                    dialog.setMessage("检测到有录入记录，调试中，暂未开放，请先用账号登录吧");
+                    dialog.setOk("好", null);
+                } else {
+                    Base_Dialog dialog = new Base_Dialog(this);
+                    dialog.setMessage("未检测到录入记录，请先用账号登录吧");
+                    dialog.setOk("好", null);
+                }
+
                 break;
         }
     }

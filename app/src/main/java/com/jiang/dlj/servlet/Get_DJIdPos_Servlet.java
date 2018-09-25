@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.jiang.dlj.activity.DJIdPos_Activity;
 import com.jiang.dlj.dialog.Loading;
 import com.jiang.dlj.entity.Const;
 import com.jiang.dlj.entity.DJIdPosByGuids_Entity;
@@ -21,12 +22,12 @@ import java.util.Map;
  * @Phone: 186 6120 1018
  * TODO: 巡检路线的位置信息
  */
-public class Get_DJIdPosByGuids_Servlet extends AsyncTask<String, Integer, DJIdPosByGuids_Entity> {
+public class Get_DJIdPos_Servlet extends AsyncTask<String, Integer, DJIdPosByGuids_Entity> {
     private static final String TAG = "Get_DJIdPosByGuids_Serv";
 
     Activity activity;
 
-    public Get_DJIdPosByGuids_Servlet(Activity activity) {
+    public Get_DJIdPos_Servlet(Activity activity) {
         this.activity = activity;
     }
 
@@ -38,6 +39,7 @@ public class Get_DJIdPosByGuids_Servlet extends AsyncTask<String, Integer, DJIdP
         String res = HttpUtil.doGet(Const.URL + "appDJIdPosByGuids.cpeam", map);
 
         DJIdPosByGuids_Entity entity;
+
         if (TextUtils.isEmpty(res)) {
             entity = new DJIdPosByGuids_Entity();
             entity.setErrorcode(-1);
@@ -61,6 +63,9 @@ public class Get_DJIdPosByGuids_Servlet extends AsyncTask<String, Integer, DJIdP
         super.onPostExecute(entity);
         Loading.dismiss();
 
+        if (activity instanceof DJIdPos_Activity) {
+            ((DJIdPos_Activity) activity).CallBack(entity);
+        }
 
     }
 }

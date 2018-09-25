@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_test_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/gray_6"
+        android:textSize="18sp" />
+
+    <com.jiang.dlj.view.ListViewForScrollView
+        android:layout_marginTop="10dp"
+        android:background="@drawable/yuanjiao_white"
+        android:id="@+id/item_test_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+    </com.jiang.dlj.view.ListViewForScrollView>
+
+</LinearLayout>

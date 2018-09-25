@@ -2,7 +2,6 @@ package com.jiang.dlj.iris;
 
 /**
  * 虹膜信息结构体
- * 
  */
 public class IrisUserInfo {
     public int m_Id;

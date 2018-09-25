@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -28,7 +29,7 @@ import java.util.List;
  * @Phone: 186 6120 1018
  * TODO: 巡回路线
  */
-public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener, AdapterView.OnItemClickListener {
+public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
     private static final String TAG = "Tour_Route_Activity";
 
     SwipeRefreshLayout sr;
@@ -53,6 +54,7 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_tour_route);
+
         setBack(true);
         setTitle("巡检路线");
 
@@ -73,6 +75,7 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
         view_null = findViewById(R.id.view_null);
 
         sr.setOnRefreshListener(this);
+        listView.setOnScrollListener(this);
 
         tour_route_type.addOnTabSelectedListener(this);
 
@@ -114,6 +117,10 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
         switch (entity.getErrorcode()) {
             case 1000:
                 if (entity.getResult() != null && entity.getResult().size() > 0) {
+
+                    view_null.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+
                     resultBeans.clear();
                     resultBeans.addAll(entity.getResult());
                     djLine_adapter.setListData(entity.getResult());
@@ -126,17 +133,38 @@ public class Tour_Route_Activity extends Base_Activity implements SwipeRefreshLa
                 }
                 break;
             default:
+
                 view_null.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
+
                 Base_Dialog dialog = new Base_Dialog(this);
                 dialog.setMessage(entity.getErrormsg());
                 dialog.setOk("确定", null);
+
                 break;
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        DJIdPos_Activity.start(this,resultBeans.get(position).getGuids());
+        DJIdPos_Activity.start(this, resultBeans.get(position).getGuids(), resultBeans.get(position).getLinename_tx(), nowtype);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+        // 当不滚动时
+        if (i == SCROLL_STATE_IDLE) {
+            //判断顶部
+            if (absListView.getChildCount() > 0 && absListView.getFirstVisiblePosition() == 0 && absListView.getChildAt(0).getTop() >= absListView.getPaddingTop()) {
+                sr.setEnabled(true);
+            } else {
+                sr.setEnabled(false);
+            }
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+
     }
 }

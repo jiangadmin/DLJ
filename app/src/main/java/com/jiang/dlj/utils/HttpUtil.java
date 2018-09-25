@@ -119,7 +119,11 @@ public class HttpUtil {
             if (TextUtils.isEmpty(entry.getValue())) {
                 continue;
             }
-            paramsStr += (entry.getKey() + "=" + entry.getValue() + "&");
+            try {
+                paramsStr += (entry.getKey() + "=" + URLEncoder.encode(entry.getValue(), "UTF-8") + "&");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
         URL url;
 

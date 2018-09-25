@@ -10,4 +10,12 @@ package com.jiang.dlj.entity;
 public class Const {
 
     public static String URL = "http://112.4.136.182:28208/DMS/appService/";
+    /**
+     * 用户ID
+     */
+    public static String UserId;
+    /**
+     * 用户名
+     */
+    public static String UserName;
 }

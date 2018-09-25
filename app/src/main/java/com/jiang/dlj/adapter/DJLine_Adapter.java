@@ -1,13 +1,13 @@
 package com.jiang.dlj.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jiang.dlj.R;
 import com.jiang.dlj.entity.DJLine_Entity;
+import com.jiang.dlj.utils.ToolUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class DJLine_Adapter extends android.widget.BaseAdapter {
             convertView = View.inflate(context, R.layout.item_djline, null);
             viewHolder.title = convertView.findViewById(R.id.item_djline_title);
             viewHolder.time = convertView.findViewById(R.id.item_djline_time);
-            viewHolder.state = convertView.findViewById(R.id.item_djline_state);
+            viewHolder.surplus = convertView.findViewById(R.id.item_djline_surplus);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -59,12 +59,24 @@ public class DJLine_Adapter extends android.widget.BaseAdapter {
         DJLine_Entity.ResultBean bean = listData.get(position);
         viewHolder.title.setText(bean.getLinename_tx());
         viewHolder.time.setText(String.format("开始时间：%s\n结束时间：%s", bean.getBegintime(), bean.getEndtime()));
-        viewHolder.state.setText(bean.getState());
+        String surplus = ToolUtils.TimeInterval(bean.getBegintime(), bean.getEndtime());
+        viewHolder.surplus.setText(surplus);
+        switch (surplus) {
+            case "未开始":
+                viewHolder.surplus.setTextColor(context.getResources().getColor(R.color.style_color_5));
+                break;
+            case "已超时":
+                viewHolder.surplus.setTextColor(context.getResources().getColor(R.color.style_color_6));
+                break;
+            default:
+                viewHolder.surplus.setTextColor(context.getResources().getColor(R.color.gray_4));
+                break;
+        }
 
         return convertView;
     }
 
     class ViewHolder {
-        TextView title, time, state;
+        TextView title, time, surplus;
     }
 }

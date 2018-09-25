@@ -13,6 +13,7 @@ import com.jiang.dlj.MyApp;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -383,4 +384,36 @@ public class ToolUtils {
     }
 
 
+    /**
+     * 当前时间是否时间区间内
+     *
+     * @param startime 开始时间
+     * @param endtime  结束时间
+     */
+    public static String TimeInterval(String startime, String endtime) {
+        //获取当前时间
+        Date date = new Date(System.currentTimeMillis());
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date d1 = df.parse(startime);
+            Date d2 = df.parse(endtime);
+
+            if (date.getTime() - d1.getTime() < 0) {
+                return "未开始";
+            } else if (date.getTime() - d2.getTime() > 0) {
+                return "已超时";
+            } else {
+                long diff = d2.getTime() - date.getTime();//这样得到的差值是微秒级别
+                long days = diff / (1000 * 60 * 60 * 24);
+
+                long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+                long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+                return (days * 24) + hours + "时" + minutes;
+            }
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

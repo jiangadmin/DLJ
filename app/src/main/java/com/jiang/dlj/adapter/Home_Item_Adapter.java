@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @Phone: 186 6120 1018
  * TODO:
  */
-public class MyAdapter extends BaseAdapter {
+public class Home_Item_Adapter extends BaseAdapter {
     private ArrayList<Icon> mData = new ArrayList<>();
 
     Context context;
@@ -29,7 +29,7 @@ public class MyAdapter extends BaseAdapter {
         this.mData = mData;
     }
 
-    public MyAdapter(Context context) {
+    public Home_Item_Adapter(Context context) {
         this.context = context;
     }
 
@@ -63,7 +63,7 @@ public class MyAdapter extends BaseAdapter {
 
         Icon icon = mData.get(position);
         viewHolder.tv.setText(icon.getiName());
-
+        viewHolder.icon.setImageResource(icon.getiId());
         return convertView;
     }
 
