@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'jiang'
             keyPassword 'jiangadmin'
-            storeFile file('/Users/jiangyao/Desktop/Android Project/Jiang.jks')
+            storeFile file('D:/AndroidProject/Jiang.jks')
             storePassword 'jiangadmin'
         }
     }
@@ -39,7 +39,6 @@ android {
 }
 
 dependencies {
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

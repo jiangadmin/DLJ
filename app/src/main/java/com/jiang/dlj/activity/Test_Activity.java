@@ -148,7 +148,6 @@ public class Test_Activity extends Base_Activity implements View.OnClickListener
         }
 
         String s = new Gson().toJson(maps);
-        LogUtil.e(TAG, s);
         Set_DJSubmit_Servlet.Info info = new Set_DJSubmit_Servlet.Info();
         info.setGuids(Guids);
         info.setDjchk_id(bean.getDjchk_id());
@@ -165,7 +164,6 @@ public class Test_Activity extends Base_Activity implements View.OnClickListener
                 info.setRun_state("2");
                 break;
         }
-
 
         new Set_DJSubmit_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, info);
 

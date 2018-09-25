@@ -30,40 +30,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="16dp"
                 android:background="@color/black"
                 android:orientation="horizontal"
                 android:padding="1dp">
 
                 <TextView
-                    android:padding="3dp"
-                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="3dp"
                     android:text="设备状态:" />
 
                 <TextView
-                    android:padding="3dp"
-                    android:gravity="center"
                     android:id="@+id/run_state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
-                    android:background="@color/white" />
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="3dp" />
 
             </LinearLayout>
-
 
             <com.jiang.dlj.view.ListViewForScrollView
                 android:id="@+id/test_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
 
             </com.jiang.dlj.view.ListViewForScrollView>
-
 
             <EditText
                 android:id="@+id/test_message"

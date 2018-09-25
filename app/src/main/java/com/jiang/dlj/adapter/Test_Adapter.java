@@ -4,12 +4,16 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.jiang.dlj.R;
 import com.jiang.dlj.entity.DJGetChk_Entity;
+import com.jiang.dlj.utils.LogUtil;
 import com.jiang.dlj.utils.ToolUtils;
 import com.jiang.dlj.view.ListViewForScrollView;
 
@@ -60,7 +64,13 @@ public class Test_Adapter extends BaseAdapter {
         if (view == null) {
             viewHolder = new ViewHolder();
             view = View.inflate(context, R.layout.item_test, null);
+            viewHolder.test_1_view = view.findViewById(R.id.item_test_1);
             viewHolder.title = view.findViewById(R.id.item_test_name);
+            viewHolder.message = view.findViewById(R.id.item_test_message);
+            viewHolder.read = view.findViewById(R.id.item_test_1_read);
+            viewHolder.log = view.findViewById(R.id.item_test_1_log);
+            viewHolder.edit = view.findViewById(R.id.item_test_1_context);
+            viewHolder.unit_code = view.findViewById(R.id.item_test_1_unit_code);
             viewHolder.listViewForScrollView = view.findViewById(R.id.item_test_list);
             view.setTag(viewHolder);
         } else {
@@ -69,28 +79,38 @@ public class Test_Adapter extends BaseAdapter {
         DJGetChk_Entity.ResultBean.ChkDetailsBean bean = beans.get(i);
 
         viewHolder.title.setText(bean.getParam_name());
+
         //定性特有
         if (bean.getOption() != null) {
-            Test_Item_Adapter test_item_adapter = new Test_Item_Adapter(context);
-            test_item_adapter.setBeans(bean.getOption());
-            test_item_adapter.setDetailsBean(bean);
-            viewHolder.listViewForScrollView.setAdapter(test_item_adapter);
+            viewHolder.test_1_view.setVisibility(View.GONE);
+            Test_Item_2_Adapter test_item_2_adapter = new Test_Item_2_Adapter(context);
+            test_item_2_adapter.setBeans(bean.getOption());
+            test_item_2_adapter.setDetailsBean(bean);
+            viewHolder.listViewForScrollView.setAdapter(test_item_2_adapter);
+        } else {
+            //定量
+            viewHolder.test_1_view.setVisibility(View.VISIBLE);
+            viewHolder.title.setText(bean.getParam_name());
+            viewHolder.message.setText("区间：（" + bean.getUnit_code() + "）" + bean.getMin_val() + "～" + bean.getMax_val());
+            viewHolder.unit_code.setText(bean.getUnit_code());
         }
 
         return view;
     }
 
     class ViewHolder {
-        TextView title;
+        LinearLayout test_1_view;
+        TextView title, message, unit_code;
+        Button read, log;
+        EditText edit;
         ListViewForScrollView listViewForScrollView;
     }
 
-
-    class Test_Item_Adapter extends BaseAdapter {
+    class Test_Item_2_Adapter extends BaseAdapter {
 
         Context context;
 
-        public Test_Item_Adapter(Context context) {
+        public Test_Item_2_Adapter(Context context) {
             this.context = context;
         }
 
@@ -133,15 +153,19 @@ public class Test_Adapter extends BaseAdapter {
             }
 
             viewHolder.list.removeAllViews();
+            DJGetChk_Entity.ResultBean.ChkDetailsBean.OptionBean bean = beans.get(i);
 
             RadioButton radioButton = new RadioButton(context);
+            radioButton.setId(bean.getItem_id());
             RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.height = ToolUtils.dp2px(40);
-            radioButton.setId((int) Math.random() * 100);
-            radioButton.setLayoutParams(layoutParams);
-            radioButton.setText(beans.get(i).getName_tx());
+//            radioButton.setLayoutParams(layoutParams);
+            radioButton.setText(bean.getName_tx());
             viewHolder.list.addView(radioButton);
-            radioButton.setOnCheckedChangeListener((compoundButton, b) -> detailsBean.setState(beans.get(i).getAlmlevel_cd()));
+            radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
+                detailsBean.setOption_cd(bean.getAlmlevel_cd());
+                LogUtil.e(TAG, radioButton.getId());
+            });
 
             return view;
         }

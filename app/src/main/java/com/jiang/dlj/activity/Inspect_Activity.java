@@ -164,7 +164,6 @@ public class Inspect_Activity extends Base_Activity implements SwipeRefreshLayou
         }
     }
 
-
     @Override
     public void onScroll(AbsListView absListView, int i, int i1, int i2) {
 

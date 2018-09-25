@@ -94,6 +94,7 @@ public class DJGetChk_Entity extends Base_Entity {
             private String dj_reslut;
             private int state;
             private int run_state;
+            private int option_cd;
             private String param_name;
             private double max_val;
             private String exlevel_id;
@@ -104,6 +105,13 @@ public class DJGetChk_Entity extends Base_Entity {
             private String djchk_id;
             private String unit_code;
 
+            public int getOption_cd() {
+                return option_cd;
+            }
+
+            public void setOption_cd(int option_cd) {
+                this.option_cd = option_cd;
+            }
 
             private List<OptionBean> option;
 

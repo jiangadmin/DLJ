@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jiang.dlj.R;
@@ -67,12 +68,24 @@ public class Inspect_Adapter extends BaseAdapter {
 
         DJGetChk_Entity.ResultBean bean = beans.get(i);
 
+        if (bean.getChkDetails().get(0) != null) {
+            switch (bean.getChkDetails().get(0).getState()) {
+                case 0:
+                    viewHolder.state.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    viewHolder.state.setVisibility(View.VISIBLE);
+                    viewHolder.state.setImageResource(R.drawable.ic_complete);
+                    break;
+            }
+        }
         viewHolder.name.setText(bean.getDjchk_name());
 
         return view;
     }
 
     class ViewHolder {
-        TextView name, message,state;
+        ImageView state;
+        TextView name, message;
     }
 }
