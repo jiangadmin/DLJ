@@ -19,7 +19,7 @@
         android:textColor="@color/white" />
 
     <EditText
-        android:text="wangzucheng"
+        android:text="yangshuyan"
         android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="42dp"

@@ -27,7 +27,6 @@ public class Inspect_Adapter extends BaseAdapter {
 
     List<DJGetChk_Entity.ResultBean> beans = new ArrayList<>();
 
-
     public Inspect_Adapter(Context context) {
         this.context = context;
     }

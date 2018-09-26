@@ -45,7 +45,6 @@ public class Login_Servlet extends AsyncTask<String, Integer, Login_Entity> {
 
         String res = HttpUtil.doGet(Const.URL + "login.cpeam", map);
 
-        LogUtil.e(TAG, res);
         Login_Entity entity;
         if (TextUtils.isEmpty(res)) {
             entity = new Login_Entity();
@@ -70,12 +69,18 @@ public class Login_Servlet extends AsyncTask<String, Integer, Login_Entity> {
         Loading.dismiss();
         switch (entity.getErrorcode()) {
             case 1000:
-                if (!TextUtils.isEmpty(entity.getResult().getUserid())){
-                    SaveUtils.setString(Save_Key.UserId,entity.getResult().getUserid());
-                    SaveUtils.setString(Save_Key.UserName,entity.getResult().getUsername());
+                if (entity.getResult().isLoginState()) {
+                    SaveUtils.setString(Save_Key.UserId, entity.getResult().getUserid());
+                    SaveUtils.setString(Save_Key.UserName, entity.getResult().getUsername());
                     Main_Activity.start(activity);
                     MyApp.finishActivity();
+                } else {
+                    Base_Dialog dialog = new Base_Dialog(activity);
+                    dialog.setTitle("登录失败");
+                    dialog.setMessage("请确认账号密码无误");
+                    dialog.setOk("好", null);
                 }
+
                 break;
             default:
                 Base_Dialog dialog = new Base_Dialog(activity);
