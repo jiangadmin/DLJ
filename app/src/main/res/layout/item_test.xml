@@ -7,7 +7,6 @@
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
-        android:padding="10dp"
         android:id="@+id/item_test_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +14,7 @@
         android:layout_marginRight="16dp"
         android:background="@drawable/yuanjiao_white"
         android:orientation="vertical"
+        android:padding="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp">
 
@@ -34,7 +34,8 @@
                 android:id="@+id/item_test_1_context"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:inputType="numberSigned|numberDecimal" />
 
             <TextView
                 android:id="@+id/item_test_1_unit_code"
@@ -44,13 +45,13 @@
 
             <Button
                 android:id="@+id/item_test_1_read"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="读数" />
 
             <Button
                 android:id="@+id/item_test_1_log"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="历史值" />
 
@@ -62,6 +63,35 @@
             android:layout_height="wrap_content"
             android:textColor="@color/style_color_6"
             android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!--定性专用-->
+    <LinearLayout
+        android:id="@+id/item_test_2"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="结果选项:"
+            android:textColor="@color/gray_4"
+            android:textSize="16sp" />
+
+
+        <RadioGroup
+            android:id="@+id/item_test_radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+        </RadioGroup>
 
     </LinearLayout>
 

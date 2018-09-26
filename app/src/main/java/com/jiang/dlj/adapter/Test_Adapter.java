@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.jiang.dlj.R;
 import com.jiang.dlj.entity.DJGetChk_Entity;
 import com.jiang.dlj.utils.LogUtil;
-import com.jiang.dlj.utils.ToolUtils;
 import com.jiang.dlj.view.ListViewForScrollView;
 
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import java.util.List;
  * @Phone: 186 6120 1018
  * TODO: 测项
  */
+
 public class Test_Adapter extends BaseAdapter {
     private static final String TAG = "Test_Adapter";
 
@@ -65,6 +65,7 @@ public class Test_Adapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = View.inflate(context, R.layout.item_test, null);
             viewHolder.test_1_view = view.findViewById(R.id.item_test_1);
+            viewHolder.test_2_view = view.findViewById(R.id.item_test_2);
             viewHolder.title = view.findViewById(R.id.item_test_name);
             viewHolder.message = view.findViewById(R.id.item_test_message);
             viewHolder.read = view.findViewById(R.id.item_test_1_read);
@@ -72,6 +73,7 @@ public class Test_Adapter extends BaseAdapter {
             viewHolder.edit = view.findViewById(R.id.item_test_1_context);
             viewHolder.unit_code = view.findViewById(R.id.item_test_1_unit_code);
             viewHolder.listViewForScrollView = view.findViewById(R.id.item_test_list);
+            viewHolder.radioGroup = view.findViewById(R.id.item_test_radiogroup);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -83,15 +85,32 @@ public class Test_Adapter extends BaseAdapter {
         //定性特有
         if (bean.getOption() != null) {
             viewHolder.test_1_view.setVisibility(View.GONE);
-            Test_Item_2_Adapter test_item_2_adapter = new Test_Item_2_Adapter(context);
-            test_item_2_adapter.setBeans(bean.getOption());
-            test_item_2_adapter.setDetailsBean(bean);
-            viewHolder.listViewForScrollView.setAdapter(test_item_2_adapter);
+            viewHolder.test_2_view.setVisibility(View.VISIBLE);
+
+            viewHolder.radioGroup.removeAllViews();
+            for (DJGetChk_Entity.ResultBean.ChkDetailsBean.OptionBean optionBean : bean.getOption()) {
+                RadioButton radioButton = new RadioButton(context);
+                RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT);
+                layoutParams.weight = 1;
+                radioButton.setLayoutParams(layoutParams);
+                radioButton.setText(optionBean.getName_tx());
+                radioButton.setId(optionBean.getItem_id());
+//                radioButton.setChecked(bean.getOption_cd() == optionBean.getAlmlevel_cd());
+
+                radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
+                    bean.setOption_cd(optionBean.getAlmlevel_cd());
+                    LogUtil.e(TAG, radioButton.getId());
+//                    notifyDataSetChanged();
+                });
+                viewHolder.radioGroup.addView(radioButton);
+            }
+
         } else {
             //定量
             viewHolder.test_1_view.setVisibility(View.VISIBLE);
+            viewHolder.test_2_view.setVisibility(View.GONE);
             viewHolder.title.setText(bean.getParam_name());
-            viewHolder.message.setText("区间：（" + bean.getUnit_code() + "）" + bean.getMin_val() + "～" + bean.getMax_val());
+            viewHolder.message.setText("区间(" + bean.getUnit_code() + "):" + bean.getMin_val() + "～" + bean.getMax_val());
             viewHolder.unit_code.setText(bean.getUnit_code());
         }
 
@@ -99,81 +118,12 @@ public class Test_Adapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        LinearLayout test_1_view;
+        LinearLayout test_1_view, test_2_view;
         TextView title, message, unit_code;
         Button read, log;
         EditText edit;
         ListViewForScrollView listViewForScrollView;
-    }
-
-    class Test_Item_2_Adapter extends BaseAdapter {
-
-        Context context;
-
-        public Test_Item_2_Adapter(Context context) {
-            this.context = context;
-        }
-
-        DJGetChk_Entity.ResultBean.ChkDetailsBean detailsBean;
-        List<DJGetChk_Entity.ResultBean.ChkDetailsBean.OptionBean> beans = new ArrayList<>();
-
-        public void setBeans(List<DJGetChk_Entity.ResultBean.ChkDetailsBean.OptionBean> beans) {
-            this.beans = beans;
-        }
-
-        public void setDetailsBean(DJGetChk_Entity.ResultBean.ChkDetailsBean detailsBean) {
-            this.detailsBean = detailsBean;
-        }
-
-        @Override
-        public int getCount() {
-            return beans.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return beans.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            ViewHolder viewHolder;
-            if (view == null) {
-                viewHolder = new ViewHolder();
-                view = View.inflate(context, R.layout.item_test_item, null);
-                viewHolder.list = view.findViewById(R.id.item_test_item);
-                view.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) view.getTag();
-            }
-
-            viewHolder.list.removeAllViews();
-            DJGetChk_Entity.ResultBean.ChkDetailsBean.OptionBean bean = beans.get(i);
-
-            RadioButton radioButton = new RadioButton(context);
-            radioButton.setId(bean.getItem_id());
-            RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.height = ToolUtils.dp2px(40);
-//            radioButton.setLayoutParams(layoutParams);
-            radioButton.setText(bean.getName_tx());
-            viewHolder.list.addView(radioButton);
-            radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
-                detailsBean.setOption_cd(bean.getAlmlevel_cd());
-                LogUtil.e(TAG, radioButton.getId());
-            });
-
-            return view;
-        }
-
-        class ViewHolder {
-            RadioGroup list;
-        }
-
+        RadioGroup radioGroup;
     }
 
 }

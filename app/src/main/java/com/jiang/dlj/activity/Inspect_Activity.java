@@ -43,7 +43,7 @@ public class Inspect_Activity extends Base_Activity implements SwipeRefreshLayou
         context.startActivity(intent);
     }
 
-    TextView title, total, complete, surplus;
+    TextView  total, complete, surplus;
     SwipeRefreshLayout sr;
     ListView list;
     LinearLayout view_null;
@@ -55,7 +55,7 @@ public class Inspect_Activity extends Base_Activity implements SwipeRefreshLayou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspect);
 
-        setTitle("检查项");
+        setTitle(resultBean.getIdpos_name());
         setBack(true);
 
         initview();
@@ -63,7 +63,7 @@ public class Inspect_Activity extends Base_Activity implements SwipeRefreshLayou
     }
 
     private void initview() {
-        title = findViewById(R.id.inspect_title);
+
         total = findViewById(R.id.inspect_total);
         complete = findViewById(R.id.inspect_complete);
         surplus = findViewById(R.id.inspect_surplus);
@@ -77,8 +77,6 @@ public class Inspect_Activity extends Base_Activity implements SwipeRefreshLayou
         adapter = new Inspect_Adapter(this);
         list.setAdapter(adapter);
         list.setOnScrollListener(this);
-
-        title.setText(resultBean.getIdpos_name());
 
     }
 
