@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
 
 import com.jiang.dlj.R;
+import com.jiang.dlj.utils.ToolUtils;
 
 /**
  * @author: jiangadmin
@@ -24,6 +26,8 @@ public class About_Activity extends Base_Activity {
         context.startActivity(intent);
     }
 
+    TextView ver;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +39,8 @@ public class About_Activity extends Base_Activity {
     }
 
     private void initview() {
-
+        ver = findViewById(R.id.about_ver);
+        ver.setText("V:" + ToolUtils.getVersionName());
     }
 
 

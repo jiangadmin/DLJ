@@ -18,6 +18,7 @@ import com.jiang.dlj.R;
 import com.jiang.dlj.adapter.DJIdPos_Adapter;
 import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.entity.DJIdPosByGuids_Entity;
+import com.jiang.dlj.scan.Scan_Activity;
 import com.jiang.dlj.servlet.Get_DJIdPos_Servlet;
 import com.jiang.dlj.servlet.Get_Ready_Servlet;
 
@@ -201,5 +202,6 @@ public class DJIdPos_Activity extends Base_Activity implements AdapterView.OnIte
         Base_Dialog dialog = new Base_Dialog(this);
         dialog.setMessage("左右橘黄色按钮可快速启动激光扫码，请勿直接照射眼睛，调试中，暂未开放");
         dialog.setOk("好", null);
+        dialog.setEsc("先瞅瞅", view -> Scan_Activity.start(DJIdPos_Activity.this));
     }
 }

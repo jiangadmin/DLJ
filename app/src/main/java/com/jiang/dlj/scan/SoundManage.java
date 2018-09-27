@@ -4,6 +4,8 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
+import com.jiang.dlj.R;
+
 /**
  * Created by zhoupin on 2016/6/3 0003.
  */

@@ -79,6 +79,10 @@
             android:name=".activity.Test_Activity"
             android:screenOrientation="portrait" />
 
+        <!--扫码-->
+        <activity android:name=".scan.Scan_Activity"
+            android:screenOrientation="portrait"/>
+
 
         <!--更新-->
         <activity
