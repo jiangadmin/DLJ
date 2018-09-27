@@ -148,7 +148,7 @@ public class TabToast {
      * @param value dp
      * @return px
      */
-    public static int dp2px(float value) {
+    private static int dp2px(float value) {
         float scale = mContext.getResources().getDisplayMetrics().density;
         return (int) (value * scale + 0.5f);
     }
@@ -159,7 +159,7 @@ public class TabToast {
      * @param context Context
      * @return px
      */
-    public static int getScreenWidth(Context context) {
+    private static int getScreenWidth(Context context) {
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();

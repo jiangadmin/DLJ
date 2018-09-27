@@ -18,9 +18,11 @@ import com.jiang.dlj.R;
 import com.jiang.dlj.adapter.DJIdPos_Adapter;
 import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.entity.DJIdPosByGuids_Entity;
+import com.jiang.dlj.entity.Save_Key;
 import com.jiang.dlj.scan.Scan_Activity;
 import com.jiang.dlj.servlet.Get_DJIdPos_Servlet;
 import com.jiang.dlj.servlet.Get_Ready_Servlet;
+import com.jiang.dlj.utils.SaveUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +75,7 @@ public class DJIdPos_Activity extends Base_Activity implements AdapterView.OnIte
         onRefresh();
 
         //待检
-        if (nowtype == 0) {
+        if (nowtype == 0 && !SaveUtils.getBoolean(Save_Key.S_巡检准备)) {
             //巡检准备
             new Get_Ready_Servlet(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Guids);
         }

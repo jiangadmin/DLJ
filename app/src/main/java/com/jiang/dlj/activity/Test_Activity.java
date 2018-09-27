@@ -20,6 +20,7 @@ import com.jiang.dlj.dialog.Loading;
 import com.jiang.dlj.entity.DJGetChk_Entity;
 import com.jiang.dlj.servlet.Set_DJSubmit_Servlet;
 import com.jiang.dlj.utils.LogUtil;
+import com.jiang.dlj.utils.TabToast;
 import com.jiang.dlj.view.ListViewForScrollView;
 
 import java.util.ArrayList;
@@ -44,8 +45,8 @@ public class Test_Activity extends Base_Activity implements View.OnClickListener
 
     Test_Adapter test_adapter;
     ListViewForScrollView listViewForScrollView;
-    Button submit;
-    TextView run_state;
+    Button submit, turn_defect;
+    TextView inspect_mode, run_state;
     EditText message;
 
     public static void start(Context context, String guids, DJGetChk_Entity.ResultBean resultBean) {
@@ -62,7 +63,7 @@ public class Test_Activity extends Base_Activity implements View.OnClickListener
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        setTitle("测项");
+        setTitle("检查项");
         setBack(true);
 
         initview();
@@ -70,17 +71,20 @@ public class Test_Activity extends Base_Activity implements View.OnClickListener
 
     private void initview() {
         title = findViewById(R.id.test_title);
+        inspect_mode = findViewById(R.id.inspect_mode);
         run_state = findViewById(R.id.run_state);
         listViewForScrollView = findViewById(R.id.test_list);
         message = findViewById(R.id.test_message);
+        turn_defect = findViewById(R.id.turn_defect);
         submit = findViewById(R.id.submit);
 
         title.setText(bean.getDjchk_name());
+        inspect_mode.setText(bean.getDj_method() == 1 ? "测量" : "目视");
         test_adapter = new Test_Adapter(this);
         test_adapter.setBeans(bean.getChkDetails());
         listViewForScrollView.setAdapter(test_adapter);
 
-        submit.setOnClickListener(this);
+
         if (bean.getChkDetails().get(0) != null) {
             switch (bean.getChkDetails().get(0).getRun_state()) {
                 //运行
@@ -102,13 +106,17 @@ public class Test_Activity extends Base_Activity implements View.OnClickListener
             }
         }
 
+        turn_defect.setOnClickListener(this);
         run_state.setOnClickListener(this);
-
+        submit.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.turn_defect:
+                TabToast.makeText("紧张开发中");
+                break;
             case R.id.run_state:
                 new Choose_Run_State_Dialog(this, run_state);
                 break;
@@ -142,12 +150,13 @@ public class Test_Activity extends Base_Activity implements View.OnClickListener
         for (DJGetChk_Entity.ResultBean.ChkDetailsBean detailsBean : bean.getChkDetails()) {
             Map map = new HashMap();
             map.put("taskdetail_guid", detailsBean.getTaskdetail_guid());
-            map.put("dj_result", bean.getDj_method() == 1 ? detailsBean.getDj_reslut() : detailsBean.getState());
+            map.put("dj_result", bean.getDj_method() == 1 ? detailsBean.getDj_reslut() : detailsBean.getRun_state());
 
             maps.add(map);
         }
 
         String s = new Gson().toJson(maps);
+        LogUtil.e(TAG,s);
         Set_DJSubmit_Servlet.Info info = new Set_DJSubmit_Servlet.Info();
         info.setGuids(Guids);
         info.setDjchk_id(bean.getDjchk_id());

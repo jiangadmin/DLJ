@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.jiang.dlj.MyApp;
 import com.jiang.dlj.R;
 import com.jiang.dlj.adapter.Home_Item_Adapter;
+import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.entity.Icon;
 import com.jiang.dlj.entity.Save_Key;
 import com.jiang.dlj.iris.Isir_Activity;
@@ -151,6 +152,19 @@ public class Main_Activity extends AppCompatActivity
                 Isir_Activity.start(this);
                 break;
             case R.id.nav_update_password:
+                break;
+            case R.id.nav_ready:
+                Base_Dialog dialog = new Base_Dialog(this);
+                dialog.setTitle("巡检准备");
+                dialog.setMessage("可根据您对业务的熟练度选择提示或屏蔽巡检准备信息");
+                dialog.setOk("屏蔽", v -> {
+                    SaveUtils.setBoolean(Save_Key.S_巡检准备, true);
+                    TabToast.makeText("已为您屏蔽");
+                });
+                dialog.setEsc("提示", v -> {
+                    SaveUtils.setBoolean(Save_Key.S_巡检准备, false);
+                    TabToast.makeText("已为您展示");
+                });
                 break;
             case R.id.nav_update:
                 Beta.checkUpgrade();

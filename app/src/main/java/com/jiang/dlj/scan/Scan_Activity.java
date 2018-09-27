@@ -59,7 +59,6 @@ public class Scan_Activity extends AppCompatActivity {
         super.onDestroy();
     }
 
-
     public Barcode2DWithSoft.ScanCallback ScanBack = new Barcode2DWithSoft.ScanCallback() {
         @Override
         public void onScanComplete(int i, int length, byte[] bytes) {
@@ -161,6 +160,5 @@ public class Scan_Activity extends AppCompatActivity {
             mypDialog.setCanceledOnTouchOutside(false);
             mypDialog.show();
         }
-
     }
 }

@@ -1,6 +1,8 @@
 package com.jiang.dlj.adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.jiang.dlj.R;
 import com.jiang.dlj.entity.DJGetChk_Entity;
 import com.jiang.dlj.utils.LogUtil;
+import com.jiang.dlj.utils.TabToast;
 import com.jiang.dlj.view.ListViewForScrollView;
 
 import java.util.ArrayList;
@@ -82,6 +85,30 @@ public class Test_Adapter extends BaseAdapter {
 
         viewHolder.title.setText(bean.getParam_name());
 
+        viewHolder.read.setOnClickListener(v -> TabToast.makeText("开发中"));
+        viewHolder.log.setOnClickListener(v ->
+                        //查询历史
+                        TabToast.makeText("开发中")
+//                new Get_History_Servlet((Activity) context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, bean.getTaskdetail_guid())
+        );
+
+        viewHolder.edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         //定性特有
         if (bean.getOption() != null) {
             viewHolder.test_1_view.setVisibility(View.GONE);
@@ -95,7 +122,8 @@ public class Test_Adapter extends BaseAdapter {
                 radioButton.setLayoutParams(layoutParams);
                 radioButton.setText(optionBean.getName_tx());
                 radioButton.setId(optionBean.getItem_id());
-//                radioButton.setChecked(bean.getOption_cd() == optionBean.getAlmlevel_cd());
+
+                radioButton.setChecked(bean.getRun_state() == optionBean.getAlmlevel_cd());
 
                 radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
                     bean.setOption_cd(optionBean.getAlmlevel_cd());

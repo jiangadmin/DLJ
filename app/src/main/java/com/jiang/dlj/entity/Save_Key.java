@@ -11,4 +11,5 @@ public class Save_Key {
     public static final String UserId = "UserID";
     public static final String UserName = "UserName";
     public static String S_校验;
+    public static String S_巡检准备 ="DJI_READY";
 }
