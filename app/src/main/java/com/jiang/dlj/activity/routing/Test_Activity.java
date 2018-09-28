@@ -1,4 +1,4 @@
-package com.jiang.dlj.activity;
+package com.jiang.dlj.activity.routing;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jiang.dlj.R;
+import com.jiang.dlj.activity.Base_Activity;
 import com.jiang.dlj.adapter.Test_Adapter;
 import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.dialog.Choose_Run_State_Dialog;
@@ -150,6 +151,7 @@ public class Test_Activity extends Base_Activity implements View.OnClickListener
         for (DJGetChk_Entity.ResultBean.ChkDetailsBean detailsBean : bean.getChkDetails()) {
             Map map = new HashMap();
             map.put("taskdetail_guid", detailsBean.getTaskdetail_guid());
+            LogUtil.e(TAG, bean.getDj_method() );
             map.put("dj_result", bean.getDj_method() == 1 ? detailsBean.getDj_reslut() : detailsBean.getRun_state());
 
             maps.add(map);

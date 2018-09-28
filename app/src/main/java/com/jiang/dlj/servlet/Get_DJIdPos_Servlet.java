@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.jiang.dlj.activity.DJIdPos_Activity;
+import com.jiang.dlj.activity.routing.DJIdPos_Activity;
 import com.jiang.dlj.dialog.Loading;
 import com.jiang.dlj.entity.Const;
 import com.jiang.dlj.entity.DJIdPosByGuids_Entity;

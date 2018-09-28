@@ -115,22 +115,31 @@ public class Test_Adapter extends BaseAdapter {
             viewHolder.test_2_view.setVisibility(View.VISIBLE);
 
             viewHolder.radioGroup.removeAllViews();
+
+            List<RadioButton> list = new ArrayList();
             for (DJGetChk_Entity.ResultBean.ChkDetailsBean.OptionBean optionBean : bean.getOption()) {
                 RadioButton radioButton = new RadioButton(context);
+                list.add(radioButton);
                 RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT);
                 layoutParams.weight = 1;
                 radioButton.setLayoutParams(layoutParams);
                 radioButton.setText(optionBean.getName_tx());
                 radioButton.setId(optionBean.getItem_id());
+                radioButton.setTag(optionBean.getAlmlevel_cd());
 
-                radioButton.setChecked(bean.getRun_state() == optionBean.getAlmlevel_cd());
+//                radioButton.setChecked(bean.getRun_state() == optionBean.getAlmlevel_cd());
 
-                radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
-                    bean.setOption_cd(optionBean.getAlmlevel_cd());
-                    LogUtil.e(TAG, radioButton.getId());
-//                    notifyDataSetChanged();
-                });
+//                radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
+//                    bean.setRun_state(optionBean.getAlmlevel_cd());
+//                    LogUtil.e(TAG, radioButton.getId() + "  run state:" + bean.getRun_state());
+//
+////                    notifyDataSetChanged();
+//                });
                 viewHolder.radioGroup.addView(radioButton);
+            }
+
+            for (RadioButton radioButton : list) {
+                radioButton.setChecked((int) radioButton.getTag() == bean.getRun_state());
             }
 
         } else {

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.jiang.dlj.MyApp;
 import com.jiang.dlj.R;
+import com.jiang.dlj.activity.routing.Tour_Route_Activity;
 import com.jiang.dlj.adapter.Home_Item_Adapter;
 import com.jiang.dlj.dialog.Base_Dialog;
 import com.jiang.dlj.entity.Icon;

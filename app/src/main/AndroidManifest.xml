@@ -49,7 +49,7 @@
 
         <!--巡回路线-->
         <activity
-            android:name=".activity.Tour_Route_Activity"
+            android:name=".activity.routing.Tour_Route_Activity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -61,22 +61,22 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.DJIdPos_Activity"
+            android:name=".activity.routing.DJIdPos_Activity"
             android:screenOrientation="portrait" />
 
         <!--总结-->
         <activity
-            android:name=".activity.DJStatistics_Activity"
+            android:name=".activity.routing.DJStatistics_Activity"
             android:screenOrientation="portrait" />
 
         <!--检查项-->
         <activity
-            android:name=".activity.Inspect_Activity"
+            android:name=".activity.routing.Inspect_Activity"
             android:screenOrientation="portrait" />
 
         <!--测项-->
         <activity
-            android:name=".activity.Test_Activity"
+            android:name=".activity.routing.Test_Activity"
             android:screenOrientation="portrait" />
 
         <!--扫码-->
