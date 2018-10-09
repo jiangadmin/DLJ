@@ -74,15 +74,15 @@ public class Main_Activity extends AppCompatActivity
         grid_photo = findViewById(R.id.main_item);
 
         mData = new ArrayList<>();
-        mData.add(new Icon(R.drawable.ic_xunjian, "巡回检查"));
-        mData.add(new Icon(R.drawable.ic_jiaojie, "交接班"));
-        mData.add(new Icon(R.drawable.ic_gongzuo, "工作票"));
-        mData.add(new Icon(R.drawable.ic_chaozuo, "操作票"));
-        mData.add(new Icon(R.drawable.ic_jianpan, "监盘"));
-        mData.add(new Icon(R.drawable.ic_quexian, "缺陷管理"));
-        mData.add(new Icon(R.drawable.ic_weihu, "定期工作"));
-        mData.add(new Icon(R.drawable.ic_weihu, "运行台账"));
-        mData.add(new Icon(R.drawable.ic_weihu, "值班日志"));
+        mData.add(new Icon(R.drawable.btn_bg_xun, "巡回检查"));
+        mData.add(new Icon(R.drawable.btn_bg_jiao, "交接班"));
+        mData.add(new Icon(R.drawable.btn_bg_gong, "工作票"));
+        mData.add(new Icon(R.drawable.btn_bg_cao, "操作票"));
+        mData.add(new Icon(R.drawable.btn_bg_jian, "监盘"));
+        mData.add(new Icon(R.drawable.btn_bg_que, "缺陷管理"));
+        mData.add(new Icon(R.drawable.btn_bg_ding, "定期工作"));
+        mData.add(new Icon(R.drawable.btn_bg_zhang, "运行台账"));
+        mData.add(new Icon(R.drawable.btn_bg_zhi, "值班日志"));
 
         mAdapter = new Home_Item_Adapter(this);
         mAdapter.setmData(mData);
@@ -92,7 +92,6 @@ public class Main_Activity extends AppCompatActivity
         grid_photo.setOnItemClickListener(this);
 
         nav_name.setText(SaveUtils.getString(Save_Key.UserName));
-
 
     }
 
